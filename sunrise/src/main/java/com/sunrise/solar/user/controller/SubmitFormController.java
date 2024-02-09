@@ -16,14 +16,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @Slf4j
-@RequestMapping("/form")
+@RequestMapping("/sunrise")
 public class SubmitFormController {
+
     @Autowired
     private SubmitFormService submitFormService;
 
-    @RequestMapping(value = "/submitForm", method = RequestMethod.POST)
+    @RequestMapping(value = "/form/submitForm", method = RequestMethod.POST)
     public ResponseEntity<?> submitForm(
             @RequestBody @NotNull @Valid SubmitFormDTO submitFormDTO) {
+
+        log.info("request for submit form with data"+submitFormDTO.toString());
         try
         {
             submitFormService.submitDetailsForm(submitFormDTO);
@@ -31,8 +34,9 @@ public class SubmitFormController {
         catch (Exception e)
         {
             log.error("exception occured while saving form data"+e.getMessage());
-            return ResponseEntity.status(HttpStatus.CREATED).body(ResponseBuilderHelper.buildFailureSubmitFormResponse(submitFormDTO));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(ResponseBuilderHelper.buildFailureSubmitFormResponse(submitFormDTO));
         }
+        log.info("request for submit form with data"+submitFormDTO.toString());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseBuilderHelper.buildSubmitFormResponse(submitFormDTO));
     }
