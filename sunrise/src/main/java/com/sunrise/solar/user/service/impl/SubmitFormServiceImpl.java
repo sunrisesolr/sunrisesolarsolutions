@@ -1,13 +1,18 @@
 package com.sunrise.solar.user.service.impl;
 
 import com.sunrise.solar.user.SubmitFormEntity;
+import com.sunrise.solar.user.constants.AppConstants;
 import com.sunrise.solar.user.dto.SubmitFormDTO;
+import com.sunrise.solar.user.enums.ErrorDefinition;
+import com.sunrise.solar.user.exception.ValidationException;
 import com.sunrise.solar.user.repo.SubmitFormRepo;
 import com.sunrise.solar.user.service.EmailService;
 import com.sunrise.solar.user.service.SubmitFormService;
+import com.sunrise.solar.user.validation.ValidationUtils;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,26 +26,35 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     @Autowired
     private EmailService emailService;
 
+    @Value("${emailids.submitForm.data}")
+    private String[] sendToEmail;
+
     @Override
     @Transactional
-    public void submitDetailsForm(SubmitFormDTO submitFormDTO) throws MessagingException {
+    public void submitDetailsForm(SubmitFormDTO submitFormDTO) throws MessagingException,ValidationException {
 
         log.info("inside submitDetailsForm started with data"+submitFormDTO.toString());
 
+        if(!ValidationUtils.isEmailValid(submitFormDTO.getEmailAddress()))
+        {
+            log.error("email provided is not correct"+submitFormDTO.getEmailAddress());
+            throw new ValidationException(ErrorDefinition.INVALID_EMAIL);
+        }
+
+        if(!ValidationUtils.isPhoneValid(submitFormDTO.getPhoneNumber()))
+        {
+            log.error("phone number  provided is not correct"+submitFormDTO.getPhoneNumber());
+            throw new ValidationException(ErrorDefinition.INVALID_PHONE);
+        }
+
         try
         {
-            StringBuilder sb=new StringBuilder();
-            sb.append(submitFormDTO.getLocation());
-            sb.append("\n\n\n");
-            sb.append(submitFormDTO.getPhoneNumber());
-            sb.append("\n\n\n");
-            sb.append(submitFormDTO.getComments());
 
-            String[] sendTo = submitFormDTO.getEmailAddress().split(",");
-
-            emailService.sendEmailWithAttachment(sendTo,"NEW LEAD FOR SOLAR",sb.toString());
+            String emailBody=createEmailBody(submitFormDTO);
+            emailService.sendEmail(sendToEmail, AppConstants.NEW_SOLAR_LEAD,emailBody);
             SubmitFormEntity submitFormEntity=convertDTOToEntity(submitFormDTO);
             submitFormRepo.save(submitFormEntity);
+
         }
         catch (Exception e)
         {
@@ -50,6 +64,21 @@ public class SubmitFormServiceImpl implements SubmitFormService {
 
         log.info("inside submitDetailsForm end with data"+submitFormDTO.toString());
 
+
+    }
+
+    private String createEmailBody(SubmitFormDTO submitFormDTO) {
+
+        StringBuilder emailBody=new StringBuilder();
+        emailBody.append(submitFormDTO.getLocation());
+        emailBody.append("\n\n\n");
+        emailBody.append(submitFormDTO.getPhoneNumber());
+        emailBody.append("\n\n\n");
+        emailBody.append(submitFormDTO.getComments());
+        emailBody.append("\n\n\n");
+        emailBody.append(submitFormDTO.getEmailAddress());
+
+        return emailBody.toString();
 
     }
 

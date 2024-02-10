@@ -1,6 +1,8 @@
 package com.sunrise.solar.user.controller;
 
 import com.sunrise.solar.user.dto.SubmitFormDTO;
+import com.sunrise.solar.user.enums.ErrorDefinition;
+import com.sunrise.solar.user.exception.ValidationException;
 import com.sunrise.solar.user.helper.ResponseBuilderHelper;
 import com.sunrise.solar.user.service.SubmitFormService;
 import jakarta.validation.Valid;
@@ -31,6 +33,11 @@ public class SubmitFormController {
         {
             submitFormService.submitDetailsForm(submitFormDTO);
         }
+        catch (ValidationException e)
+        {
+            log.error("exception occured while validation "+e.getMessage());
+            throw new ValidationException(e.getCode(),e.getMessage());
+        }
         catch (Exception e)
         {
             log.error("exception occured while saving form data"+e.getMessage());
@@ -40,4 +47,5 @@ public class SubmitFormController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(ResponseBuilderHelper.buildSubmitFormResponse(submitFormDTO));
     }
+
 }

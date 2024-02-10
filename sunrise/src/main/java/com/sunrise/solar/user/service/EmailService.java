@@ -4,5 +4,5 @@ import jakarta.mail.MessagingException;
 
 public interface EmailService {
 
-    public void sendEmailWithAttachment(String[] sendTo, String subject, String text) throws MessagingException;
+    public void sendEmail(String[] sendTo, String subject, String text) throws MessagingException;
 }

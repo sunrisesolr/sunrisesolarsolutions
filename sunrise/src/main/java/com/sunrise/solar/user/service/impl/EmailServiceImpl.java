@@ -18,7 +18,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender javaMailSender;
 
     @Override
-    public void sendEmailWithAttachment(String[] sendTo, String subject, String text) throws MessagingException {
+    public void sendEmail(String[] sendTo, String subject, String text) throws MessagingException {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
