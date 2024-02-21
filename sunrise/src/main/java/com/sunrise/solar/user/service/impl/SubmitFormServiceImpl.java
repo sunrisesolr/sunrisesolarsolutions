@@ -27,7 +27,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
     private EmailService emailService;
 
     @Value("${emailids.submitForm.data}")
-    private String[] sendToEmail;
+    private String sendToEmail;
 
     @Override
     @Transactional
@@ -51,7 +51,8 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         {
 
             String emailBody=createEmailBody(submitFormDTO);
-            emailService.sendEmail(sendToEmail, AppConstants.NEW_SOLAR_LEAD,emailBody);
+            String[] recipientsEmail=sendToEmail.split(",");
+            emailService.sendEmail(recipientsEmail, AppConstants.NEW_SOLAR_LEAD,emailBody);
             SubmitFormEntity submitFormEntity=convertDTOToEntity(submitFormDTO);
             submitFormRepo.save(submitFormEntity);
 
