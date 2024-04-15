@@ -1,9 +1,11 @@
 package com.sunrise.solar.user;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Table(name = "ss_form_details")
+@Getter
 public class SubmitFormEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -47,5 +49,29 @@ public class SubmitFormEntity {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

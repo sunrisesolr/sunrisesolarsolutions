@@ -1,6 +1,7 @@
 package com.sunrise.solar.user.enums;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public enum ErrorDefinition {
