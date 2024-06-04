@@ -47,21 +47,29 @@ public class SubmitFormServiceImpl implements SubmitFormService {
             throw new ValidationException(ErrorDefinition.INVALID_PHONE);
         }
 
-        try
-        {
-
-            String emailBody=createEmailBody(submitFormDTO);
-            String[] recipientsEmail=sendToEmail.split(",");
-            emailService.sendEmail(recipientsEmail, AppConstants.NEW_SOLAR_LEAD,emailBody);
-            SubmitFormEntity submitFormEntity=convertDTOToEntity(submitFormDTO);
+	// save to db
+	try
+	{
+	    SubmitFormEntity submitFormEntity=convertDTOToEntity(submitFormDTO);
             submitFormRepo.save(submitFormEntity);
-
         }
         catch (Exception e)
         {
-            log.error("error occur while saving form data"+e.getMessage());
+            log.error("error occur while saving form data: "+e.getMessage());
             throw  e;
         }
+
+	// try to send email, ok if doesnt succeed
+        try
+        {
+            String emailBody=createEmailBody(submitFormDTO);
+            String[] recipientsEmail=sendToEmail.split(",");
+            emailService.sendEmail(recipientsEmail, AppConstants.NEW_SOLAR_LEAD,emailBody);
+	}
+	catch (Exception e){
+	    log.error("Could not send email: " + e.getMessage());
+	}
+
 
         log.info("inside submitDetailsForm end with data"+submitFormDTO.toString());
 
