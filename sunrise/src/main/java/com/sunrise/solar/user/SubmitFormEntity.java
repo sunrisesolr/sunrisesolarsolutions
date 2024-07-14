@@ -48,4 +48,16 @@ public class SubmitFormEntity {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

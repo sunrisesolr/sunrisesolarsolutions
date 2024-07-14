@@ -20,4 +20,11 @@ public enum ErrorDefinition {
         this.message = message;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

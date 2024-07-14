@@ -27,4 +27,7 @@ public class ValidationException extends  RuntimeException{
     }
 
 
+    public String getCode() {
+        return code;
+    }
 }
