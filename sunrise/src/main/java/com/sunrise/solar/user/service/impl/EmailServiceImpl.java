@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService {
 
     static  final String  pathToAttachment = "/Users/harendersingh/Desktop/CompanyLogo.png";
     private static final String URL = "https://graph.facebook.com/v19.0/249395708263058/messages";
-    private static final String ACCESS_TOKEN = "EAANvFeZBbAaUBOxHCfaZAsVNSZAiMdUEQZBBOQTEbKYKtm28nefkLXwA9ndGdTLlgQaqMmTvObnvWImVZAg5aURsQJMZAKN7Yc1ZB2pDGn61ocTC9JoZAs4QvEURunMbdJYUKgJFKbsBiJ4rVL6wjbRfZCp2vY3lEeSU4hcMLb5oAtXGUqQJUa0Vlhsw6FdH03YCWXjfX68hYb68yAGeLPHoxNtW6ICfNdFUwqoZBaz3f3nVQZD";
+    private static final String ACCESS_TOKEN = "EAANvFeZBbAaUBO27Ny1SBVGSNDb0QJtlBF7bZACk0rA8HlsWeluFI6CQbsDrbHFFlyv4gbGkCQ0COH2xjubLSCSaQLGIpK4zieFKwILY0jM4EVPt35x8PCdnGtd3X99fT4WNJZAFP30N6goKW4sdhFS3PDiHG7cjA3HRETtOMd382bXe7BXW3wPZBvjtOFTq3WPyxhH6jhXyfHX50yHvufdl80CCwpheZA0h9RpuYZBKcZD";
 
 
     @Override

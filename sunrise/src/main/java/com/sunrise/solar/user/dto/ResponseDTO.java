@@ -6,7 +6,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @ToString
-@AllArgsConstructor
 @Builder
 public class ResponseDTO {
     String name;
