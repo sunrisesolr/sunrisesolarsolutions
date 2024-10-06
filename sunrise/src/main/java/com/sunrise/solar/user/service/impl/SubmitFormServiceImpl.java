@@ -87,6 +87,7 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         submitFormEntity.setPhoneNumber(submitFormDTO.getPhoneNumber());
         submitFormEntity.setEmail(submitFormDTO.getEmailAddress());
         submitFormEntity.setLocation(submitFormDTO.getLocation());
+        submitFormEntity.setPinCode(submitFormDTO.getPinCode());
         return submitFormEntity;
 
     }

@@ -25,7 +25,7 @@ public class SubmitFormEntity {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "pinCode")
+    @Column(name = "pincode")
     String pinCode;
 
     public void setId(Long id) {
