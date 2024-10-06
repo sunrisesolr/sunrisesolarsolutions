@@ -25,6 +25,9 @@ public class SubmitFormEntity {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "pinCode")
+    String pinCode;
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -59,5 +62,21 @@ public class SubmitFormEntity {
 
     public String getName() {
         return name;
+    }
+
+    public String getPinCode() {
+        return pinCode;
+    }
+
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getComments() {
+        return comments;
     }
 }

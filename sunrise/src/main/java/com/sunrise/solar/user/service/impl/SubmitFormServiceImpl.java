@@ -70,10 +70,12 @@ public class SubmitFormServiceImpl implements SubmitFormService {
         emailBody.append(submitFormDTO.getPhoneNumber());
         emailBody.append("\n\n\n");
         emailBody.append(submitFormDTO.getEmailAddress());
+        emailBody.append("\n\n\n");
         emailBody.append(submitFormDTO.getComments());
         emailBody.append("\n\n\n");
         emailBody.append(submitFormDTO.getLocation());
         emailBody.append("\n\n\n");
+        emailBody.append(submitFormDTO.getPinCode());
         return emailBody.toString();
 
     }
