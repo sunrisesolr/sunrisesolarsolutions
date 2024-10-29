@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # checkout repo
-      - run: git checkout --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+      - run: git clone --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
 
       # install just
       - run: |
