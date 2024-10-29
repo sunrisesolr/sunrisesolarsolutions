@@ -2,10 +2,16 @@ name: github actions demo
 on: [push]
 jobs:
   build-job:
-    runs-on:
-      ubuntu-latest
+
+    runs-on: ubuntu-latest
     steps:
-      - name: check out repo code
-        uses: actions/checkout@v4
+      # checkout repo
+      - run: git checkout --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+
+      # install just
+      - run: |
+          wget https://github.com/casey/just/releases/download/1.36.0/just-1.36.0-x86_64-unknown-linux-musl.tar.gz
+          tar xf just-1.36.0-x86_64-unknown-linux-musl.tar.gz just
+          mv just ~/.local/bin
+
       - run: just build
-        
