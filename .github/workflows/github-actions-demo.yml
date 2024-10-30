@@ -42,3 +42,11 @@ jobs:
           # export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64
           echo $JAVA_HOME
           just build
+  container-build:
+    runs-on: ubuntu-latest
+    container: fedora:latest
+    steps:
+      - name: install tools
+        run: |
+          dnf -y install java-17-openjdk-devel just
+    
