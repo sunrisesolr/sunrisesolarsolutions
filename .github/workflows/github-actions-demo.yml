@@ -12,6 +12,7 @@ jobs:
           wget --quiet https://github.com/casey/just/releases/download/1.36.0/just-1.36.0-x86_64-unknown-linux-musl.tar.gz
           tar xf just-1.36.0-x86_64-unknown-linux-musl.tar.gz just
           ls -l just
+          mkdir -p $HOME/.local/bin 
           mv just $HOME/.local/bin
           ls -l $HOME/.local/bin
           echo $PATH
