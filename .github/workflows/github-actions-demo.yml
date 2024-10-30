@@ -9,7 +9,7 @@ jobs:
           pwd
           ls -l
           tree
-          git clone --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
+          git clone --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
 
       # install just
       - run: |
