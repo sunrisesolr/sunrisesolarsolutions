@@ -12,7 +12,7 @@ jobs:
 
       - name: install java 17 jdk
         run: |
-          apt install openjdk-17-{jdk,jre}
+          sudo apt-get install openjdk-17-{jdk,jre}
 
       - name: install just
         run: |
