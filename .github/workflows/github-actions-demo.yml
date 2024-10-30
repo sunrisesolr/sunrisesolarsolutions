@@ -5,12 +5,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # checkout repo
-      - run: |
+      - name: clone repo
+        run: |
           pwd
           git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
 
-      # install just
-      - run: |
+      - name: install java 17 jdk
+        run: |
+          apt install openjdk-17-{jdk,jre}
+
+      - name: install just
+        run: |
           pushd /tmp
           wget --quiet https://github.com/casey/just/releases/download/1.36.0/just-1.36.0-x86_64-unknown-linux-musl.tar.gz
           tar xf just-1.36.0-x86_64-unknown-linux-musl.tar.gz just
@@ -19,7 +24,8 @@ jobs:
           rm just-1.36.0-x86_64-unknown-linux-musl.tar.gz
           popd
 
-      - run: |
+      - name: build project 
+        run: |
           pwd
           tree
           just build
