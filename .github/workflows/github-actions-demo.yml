@@ -3,7 +3,7 @@ on: [push]
 
 defaults:
   run:
-    shell: bash -xef
+    shell: bash -xef {0}
 
 jobs:
   build-job:
