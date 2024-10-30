@@ -12,10 +12,11 @@ jobs:
 
       - name: install java 17 jdk
         run: |
-          sudo apt-get -qq install openjdk-17-{jdk,jre}
-          javac -version
+          sudo apt-get -qq install -y openjdk-17-{jdk,jre}
+          javac --version
           sudo update-java-alternatives --list
           sudo update-java-alternatives --set java-1.17.0-openjdk-amd64
+          javac --version
 
       - name: install just
         run: |
