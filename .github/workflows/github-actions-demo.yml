@@ -4,7 +4,6 @@ jobs:
   build-job:
     runs-on: ubuntu-latest
     steps:
-      # checkout repo
       - name: clone repo
         run: |
           pwd
@@ -15,7 +14,8 @@ jobs:
           sudo apt-get -qq install -y openjdk-17-{jdk,jre}
           javac --version
           sudo update-java-alternatives --list
-          sudo update-java-alternatives --set temurin-17-jdk-amd64
+          alternatives --list
+          sudo update-java-alternatives --set java-1.17.0-openjdk-amd64
           javac --version
 
       - name: install just
