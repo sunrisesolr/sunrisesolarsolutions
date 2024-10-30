@@ -17,7 +17,9 @@ jobs:
           mkdir -p $HOME/.local/bin 
           mv just $HOME/.local/bin
           rm just-1.36.0-x86_64-unknown-linux-musl.tar.gz
-          
+          popd
+
       - run: |
           pwd
+          tree
           just build
