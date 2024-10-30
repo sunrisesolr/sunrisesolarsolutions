@@ -1,7 +1,7 @@
 build:
     #!/bin/bash
     cd sunrise/
-    ./mvnw clean install -DskipTests
+    ./mvnw -B clean install -DskipTests
 
 push: build
     #!/bin/bash
