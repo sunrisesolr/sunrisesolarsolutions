@@ -15,5 +15,7 @@ jobs:
           mv just $HOME/.local/bin
 
       - run: |
+          pwd
+          ls -l
           pushd $GITHUB_REPOSITORY   
           just build
