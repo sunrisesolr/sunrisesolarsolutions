@@ -22,7 +22,8 @@ jobs:
           sudo update-java-alternatives --set java-1.21.0-openjdk-amd64
           javac --version
           echo JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64 | sudo tee --append /etc/environment
-
+          cat /etc/environment
+          
       - name: install just
         run: |
           pushd /tmp
