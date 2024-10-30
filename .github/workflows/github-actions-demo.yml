@@ -49,4 +49,7 @@ jobs:
       - name: install tools
         run: |
           dnf -y install java-17-openjdk-devel just
-    
+      
+      - name: clone repo
+        run: | 
+          git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY"
