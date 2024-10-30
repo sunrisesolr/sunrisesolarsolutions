@@ -36,4 +36,5 @@ jobs:
         run: |
           pwd
           tree
+          echo $JAVA_HOME
           just build
