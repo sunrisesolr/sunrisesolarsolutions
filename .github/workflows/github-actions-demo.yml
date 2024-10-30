@@ -7,9 +7,8 @@ jobs:
       # checkout repo
       - run: |
           pwd
-          git clone --depth 1 "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
-          git checkout $GITHUB_REF_NAME
-          
+          git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
+
       # install just
       - run: |
           pushd /tmp
