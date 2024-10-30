@@ -14,7 +14,8 @@ jobs:
         run: |
           sudo apt-get -qq install openjdk-17-{jdk,jre}
           java --version
-          update-java-alternatives --list
+          sudo update-java-alternatives --list
+          sudo update-java-alternatives --set /usr/lib/jvm/java-1.17.0-openjdk-amd64
 
       - name: install just
         run: |
