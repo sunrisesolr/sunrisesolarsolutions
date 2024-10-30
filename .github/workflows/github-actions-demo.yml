@@ -14,12 +14,12 @@ jobs:
           pwd
           git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
 
-      - name: install java 17 jdk
+      - name: install java 21 jdk
         run: |
-          sudo apt-get -qq install -y openjdk-17-{jdk,jre}
+          sudo apt-get -qq install -y openjdk-21-{jdk,jre}
           javac --version
           sudo update-java-alternatives --list || true
-          sudo update-java-alternatives --set java-1.17.0-openjdk-amd64
+          sudo update-java-alternatives --set java-1.21.0-openjdk-amd64
           javac --version
 
       - name: install just
