@@ -23,7 +23,7 @@ jobs:
           javac --version
           echo JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64 | sudo tee --append /etc/environment
           cat /etc/environment
-          
+
       - name: install just
         run: |
           pushd /tmp
@@ -38,5 +38,7 @@ jobs:
         run: |
           pwd
           tree
+          echo $JAVA_HOME
+          export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64
           echo $JAVA_HOME
           just build
