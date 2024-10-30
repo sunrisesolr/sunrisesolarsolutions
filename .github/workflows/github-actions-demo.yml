@@ -48,7 +48,7 @@ jobs:
     steps:
       - name: install tools
         run: |
-          dnf -y install java-17-openjdk-devel just
+          dnf -y install java-17-openjdk-devel git just
       
       - name: clone repo
         run: | 
