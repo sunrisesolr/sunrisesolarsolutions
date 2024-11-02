@@ -44,14 +44,21 @@ jobs:
           just build
   container-build:
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:dind
+        options: --privileged --shm-size=2g
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock:ro
+
     container: fedora:latest
     steps:
       - name: install tools
         run: |
           dnf -y install java-17-openjdk-devel git just rsync docker
-          systemctl enable --now docker
-      
-      - name: clone repo
+          docker info
+
+          - name: clone repo
         run: | 
           git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" /app
           cd /app
