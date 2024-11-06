@@ -1,0 +1,11 @@
+[Unit]
+Description="Sunrise Java Server"
+After=network.target
+
+[Service]
+Type=exec
+WorkingDirectory=%h/ss-java-app
+ExecStart=bash -c 'RUN_ARGS="--spring.config.additional-location=override.properties" ./sunrise-0.0.1-SNAPSHOT.jar'
+
+[Install]
+WantedBy=multi-user.target

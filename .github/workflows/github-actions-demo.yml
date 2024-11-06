@@ -11,55 +11,78 @@ jobs:
     steps:
       - name: clone repo
         run: |
-          pwd
           git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
-
-      - name: install java 21 jdk
+      
+      - name: setup ssh for ss-app server
         run: |
-          sudo apt-get -qq install -y openjdk-21-{jdk,jre}
-          javac --version
-          sudo update-java-alternatives --list || true
-          sudo update-java-alternatives --set java-1.21.0-openjdk-amd64
-          javac --version
-          echo JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64 | sudo tee --append /etc/environment
-          cat /etc/environment
+          mkdir -p $HOME/.ssh
+          chmod 0700 $HOME.ssh
+          printf "$SS_APP_SSH_CONFIG" > $HOME/.ssh/config
+          printf "$SS_APP_PRIVATE_KEY" > $HOME/.ssh/ss-app
 
-      - name: install just
+      - name: build repo
         run: |
-          pushd /tmp
-          wget --quiet https://github.com/casey/just/releases/download/1.36.0/just-1.36.0-x86_64-unknown-linux-musl.tar.gz
-          tar xf just-1.36.0-x86_64-unknown-linux-musl.tar.gz just
-          mkdir -p $HOME/.local/bin 
-          mv just $HOME/.local/bin
-          rm just-1.36.0-x86_64-unknown-linux-musl.tar.gz
-          popd
+          export JAVA_HOME="$JAVA_HOME_17"
+          ./mvnw clean package -DskipTests
+          rsync target/sunrise-0.0.1-SNAPSHOT.jar ss-app:/home/ec2-user/ss-java-app
+          ssh ss-app systemctl --user restart ss-java-app.service
 
-      - name: build project
-        run: |
-          pwd
-          tree
-          echo $JAVA_HOME
-          # export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64
-          echo $JAVA_HOME
-          just build
-  container-build:
-    runs-on: ubuntu-latest
-    services:
-      docker:
-        image: docker:dind
-        options: --privileged --shm-size=2g
-        volumes:
-          - /var/run/docker.sock:/var/run/docker.sock:ro
 
-    container: fedora:latest
-    steps:
-      - name: install tools
-        run: |
-          dnf -y install java-17-openjdk-devel git just rsync docker
-          docker info
+  # build-job:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: clone repo
+  #       run: |
+  #         pwd
+  #         git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" .
 
-      - name: clone repo
-        run: | 
-          git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" /app
-          cd /app
-          ./mvnw spring-boot:build-image -DskipTests
+  #     - name: install java 21 jdk
+  #       run: |
+  #         sudo apt-get -qq install -y openjdk-21-{jdk,jre}
+  #         javac --version
+  #         sudo update-java-alternatives --list || true
+  #         sudo update-java-alternatives --set java-1.21.0-openjdk-amd64
+  #         javac --version
+  #         echo JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64 | sudo tee --append /etc/environment
+  #         cat /etc/environment
+
+  #     - name: install just
+  #       run: |
+  #         pushd /tmp
+  #         wget --quiet https://github.com/casey/just/releases/download/1.36.0/just-1.36.0-x86_64-unknown-linux-musl.tar.gz
+  #         tar xf just-1.36.0-x86_64-unknown-linux-musl.tar.gz just
+  #         mkdir -p $HOME/.local/bin 
+  #         mv just $HOME/.local/bin
+  #         rm just-1.36.0-x86_64-unknown-linux-musl.tar.gz
+  #         popd
+
+  #     - name: build project
+  #       run: |
+  #         pwd
+  #         tree
+  #         echo $JAVA_HOME
+  #         # export JAVA_HOME=/usr/lib/jvm/java-1.21.0-openjdk-amd64
+  #         echo $JAVA_HOME
+  #         just build
+
+  # container-build:
+  #   runs-on: ubuntu-latest
+  #   services:
+  #     docker:
+  #       image: docker:dind
+  #       options: --privileged --shm-size=2g
+  #       volumes:
+  #         - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  #   container: fedora:latest
+  #   steps:
+  #     - name: install tools
+  #       run: |
+  #         dnf -y install java-17-openjdk-devel git just rsync docker
+  #         docker info
+
+  #     - name: clone repo
+  #       run: | 
+  #         git clone --single-branch --branch "$GITHUB_REF_NAME" "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" /app
+  #         cd /app
+  #         ./mvnw spring-boot:build-image -DskipTests
